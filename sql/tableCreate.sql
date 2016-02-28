@@ -5,7 +5,7 @@ CREATE TABLE Stop (
     routes smallint[],
     boardings decimal(5,1),
     alightings decimal(5,1),
-    beginning date,
+    creation date,
     daytype varchar(7),
     coordinates point
 );
