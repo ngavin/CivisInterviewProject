@@ -2,7 +2,7 @@ CREATE TABLE Stop (
     id smallint PRIMARY KEY,
     on_street varchar(64),
     cross_street varchar(64),
-    routes smallint[],
+    routes varchar(4)[],
     boardings decimal(5,1),
     alightings decimal(5,1),
     creation timestamp,
