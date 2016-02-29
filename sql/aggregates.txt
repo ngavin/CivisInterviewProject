@@ -1,0 +1,5 @@
+Max latitude:  42.060889
+Min latitude:  41.648676
+
+Max longitude: -87.53512
+Min longitude: -87.88429
