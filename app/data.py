@@ -1,7 +1,7 @@
 import json
 import psycopg2
 import re
-from flask import Flask, Blueprint, Response
+from flask import Blueprint, Response
 
 data = Blueprint('data', __name__, template_folder='templates')
 
@@ -14,7 +14,7 @@ def getMarkers():
     results = cur.fetchall()
 
     data = []
-    cleanse = re.compile(r"\(|\'|\)")
+    cleanse = re.compile(r"\(|\'|\)|\s")
     for stop in results:
         data.append(cleanse.sub("", str(stop)).split(","))
 
