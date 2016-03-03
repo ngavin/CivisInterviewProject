@@ -2,13 +2,8 @@
 {% block head %}
     {{ super() }}
     <script src="/static/js/map.js"></script>
-    <script>
-        var map;
-    
-        window.addEventListener("mapReady", drawMarkers);
-    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc&callback=initMap" async defer></script>
 {% endblock %}
 {% block content %}
 <div id="map"></div>
-{% endblock %}s
+{% endblock %}
