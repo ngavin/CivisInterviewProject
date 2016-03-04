@@ -33,9 +33,6 @@ def getInfoWindowContent(markerId):
     )
 
     cur.execute("EXECUTE getInfoWindowContent('{markerId}')".format(markerId=markerId))
-    results = cur.fetchall()
-    cleanse = re.compile(r"\(|\'|\)")
+    results = cur.fetchone()
 
-    results = cleanse.sub("", str(results[0])).split(",")
-
-    return render_template("infoWindowContent.html", id=markerId, on_street=results[0], cross_street=results[1], routes=results[2], boardings=results[3], alightings=results[4])
+    return render_template("infoWindowContent.html", id=markerId, on_street=results[0], cross_street=results[1], routes=", ".join(results[2]), boardings=results[3], alightings=results[4])
