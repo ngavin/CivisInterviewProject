@@ -16,7 +16,7 @@ with open("sql/data.json") as data_file:
             "PREPARE loadData as "
             "INSERT INTO Stop VALUES"
             "($1, $2, $3, $4, $5, $6, $7, $8, $9)"
-            )
+        )
 
         word = re.compile(r'(\b[^,]+\b)')
         data = json.load(data_file)
