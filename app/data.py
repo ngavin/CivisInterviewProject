@@ -10,15 +10,10 @@ def getMarkers():
     con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
     cur = con.cursor()
 
-    cur.execute("SELECT id, coordinates FROM Stop")
+    cur.execute("SELECT id, coordinates, routes FROM Stop")
     results = cur.fetchall()
 
-    data = []
-    cleanse = re.compile(r"\(|\'|\)|\s")
-    for stop in results:
-        data.append(cleanse.sub("", str(stop)).split(","))
-
-    return Response(json.dumps(data), mimetype='application/json')
+    return Response(json.dumps(results), mimetype='application/json')
 
 @data.route('/data/markers/infoWindow/<markerId>')
 def getInfoWindowContent(markerId):

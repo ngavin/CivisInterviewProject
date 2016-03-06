@@ -3,7 +3,6 @@ from data import data
 
 app = Flask(__name__)
 app.debug = True
-# app.config.from_object("config")
 
 index = Blueprint('index', __name__, template_folder='templates')
 app.register_blueprint(index)
