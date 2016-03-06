@@ -11,7 +11,12 @@ app.register_blueprint(data)
 api_key = "AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc"
 
 @app.route('/')
-def hello():
+def index():
+    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    cur = con.cursor()
+
+    cur.execute("SELECT array_agg(DISTINCT t) routes FROM Stop")
+
     return render_template("index.html")
 
 if __name__ == '__main__':

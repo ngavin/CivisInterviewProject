@@ -5,5 +5,20 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc&callback=initMap" async defer></script>
 {% endblock %}
 {% block content %}
-<div id="map"></div>
+<div class="row">
+    <div class="col-md-3">
+        <table id="routes">
+            <tr>
+                <th>Routes</th>
+            </tr>
+            <tr>
+                <td>All</td>
+
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-9">
+        <div id="map"></div>
+    </div>
+</div>
 {% endblock %}

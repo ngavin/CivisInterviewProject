@@ -9,7 +9,7 @@ function initMap() {
 }   
 
 function createMarkers() {
-    map.markers = new Map();
+    map.routes = new Map();
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "/data/markers", true)
     xhttp.send();
@@ -22,7 +22,6 @@ function createMarkers() {
 }
 
 function createMarker(stop) {
-    console.log("creating marker " + stop[0]);
     var latLng = stop[1].replace(/[()]/g, "").split(",");
     var marker = new google.maps.Marker({
         position: {lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1])},
@@ -30,16 +29,19 @@ function createMarker(stop) {
         map: map
     });
     marker.addListener("click", displayInfoWindow);
+    map.routes.set(stop[0], marker)
+    addToRoutes(stop[2], marker);
+}
 
-    // var routes = JSON.parse(stop[3]);
-    // routes.forEach(function(route) {
-    //     if (!map.markers.has(route)) {
-    //         map.markers.set(route, []);
-    //     }
-    //     var stops = map.markers.get(route);
-    //     stops.push(marker);
-    //     map.markers.set(route, stops);
-    // });
+function addToRoutes(routes, marker) {
+    routes.forEach(function(route) {
+        if (!map.routes.has(route)) {
+            map.routes.set(route, []);
+        }
+        var stops = map.routes.get(route);
+        stops.push(marker);
+        map.routes.set(route, stops);
+    });
 }
 
 function displayInfoWindow(e) {
