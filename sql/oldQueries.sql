@@ -1,0 +1,1 @@
+PREPARE getInfoWindowContent as SELECT S.on_street, S.cross_street, R.name, S.boardings::text, S.alightings::text FROM Stop S, Route R WHERE S.id = $1 AND R.id IN (SELECT unnest(routes) FROM Stop WHERE id = $1)

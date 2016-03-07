@@ -12,10 +12,10 @@ api_key = "AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc"
 
 @app.route('/')
 def index():
-    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
-    cur = con.cursor()
+    # con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    # cur = con.cursor()
 
-    cur.execute("SELECT array_agg(DISTINCT t) routes FROM Stop")
+    # cur.execute("SELECT array_agg(DISTINCT ) routes FROM Stop")
 
     return render_template("index.html")
 

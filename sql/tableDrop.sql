@@ -1,1 +1,2 @@
+DROP TABLE Route;
 DROP TABLE Stop;

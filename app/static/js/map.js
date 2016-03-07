@@ -30,7 +30,7 @@ function createMarker(stop) {
     });
     marker.addListener("click", displayInfoWindow);
     map.routes.set(stop[0], marker)
-    addToRoutes(stop[2], marker);
+    // addToRoutes(stop[2], marker);
 }
 
 function addToRoutes(routes, marker) {

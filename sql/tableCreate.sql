@@ -1,8 +1,13 @@
+CREATE TABLE Route (
+    id smallint PRIMARY KEY,
+    name varchar(4)
+);
+
 CREATE TABLE Stop (
     id smallint PRIMARY KEY,
     on_street varchar(64),
     cross_street varchar(64),
-    routes varchar(4)[],
+    routes smallint[],
     boardings decimal(5,1),
     alightings decimal(5,1),
     creation timestamp,
