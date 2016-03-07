@@ -1,6 +1,5 @@
 import json
 import psycopg2
-import re
 from flask import Blueprint, Response, render_template
 
 data = Blueprint('data', __name__, template_folder='templates')
@@ -39,10 +38,9 @@ def getInfoWindowContent(markerId):
     results = cur.fetchone()
 
     cur.execute("EXECUTE getRoutes('{markerId}')".format(markerId=markerId))
-    routeResults = cur.fetchall()
 
     routes = []
-    for route in routeResults:
+    for route in cur.fetchall():
         routes.append(route[0])    
 
     return render_template("infoWindowContent.html", id=markerId, on_street=results[0], cross_street=results[1], routes=", ".join(routes), boardings=results[2], alightings=results[3])

@@ -1,3 +1,4 @@
+import psycopg2
 from flask import Flask, Blueprint, render_template
 from data import data
 
@@ -12,12 +13,16 @@ api_key = "AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc"
 
 @app.route('/')
 def index():
-    # con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
-    # cur = con.cursor()
+    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    cur = con.cursor()
 
-    # cur.execute("SELECT array_agg(DISTINCT ) routes FROM Stop")
+    cur.execute("SELECT DISTINCT name FROM Route ORDER BY name ASC")
 
-    return render_template("index.html")
+    routes = []
+    for route in cur.fetchall():
+        routes.append(route[0]) 
+    
+    return render_template("index.html", routes=routes)
 
 if __name__ == '__main__':
     app.run()

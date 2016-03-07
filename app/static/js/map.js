@@ -34,7 +34,7 @@ function createMarker(stop) {
 }
 
 function addToRoutes(routes, marker) {
-    routes.forEach(function(route) {
+    routes.forEach( function(route) {
         if (!map.routes.has(route)) {
             map.routes.set(route, []);
         }
