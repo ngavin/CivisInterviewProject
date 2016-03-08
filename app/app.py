@@ -16,13 +16,9 @@ def index():
     con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
     cur = con.cursor()
 
-    cur.execute("SELECT DISTINCT name FROM Route ORDER BY name ASC")
-
-    routes = []
-    for route in cur.fetchall():
-        routes.append(route[0]) 
+    cur.execute("SELECT DISTINCT id, name FROM Route ORDER BY name ASC")
     
-    return render_template("index.html", routes=routes)
+    return render_template("index.html", routes=cur.fetchall())
 
 if __name__ == '__main__':
     app.run()

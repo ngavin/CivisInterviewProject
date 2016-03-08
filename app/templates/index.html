@@ -16,7 +16,7 @@
             </tr>
             {% for route in routes %}
                 <tr>
-                    <td data-route-id="{{ route }}">{{ route }}</td>
+                    <td data-route-id="{{ route[0] }}">{{ route[1] }}</td>
                 </tr>
             {% endfor %}
         </table>
