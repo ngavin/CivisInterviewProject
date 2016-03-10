@@ -7,10 +7,6 @@ body {
     padding-top: 130px;
 }
 
-thead {
-  position: absolute;
-}
-
 #map {
   width: 100%;
   height: 600px;
@@ -42,12 +38,26 @@ thead {
   color: white;
 }
 
-.header {
+.header, .header a {
   color: white;
+}
+
+.header a:hover {
+  text-decoration: none;
 }
 
 .selected {
   background-color: lightgreen !important;
+}
+
+.spacer {
+  height: 300px;
+}
+
+.btn-xlg {
+  width: 100%;
+  font-size: x-large;
+  padding: 30px 25px 30px 25px
 }
 
 /*** Table Styles from http://codepen.io/alassetter/pen/cyrfB **/ 
@@ -60,7 +70,7 @@ th {
   padding:24px;
   text-align:center;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  vertical-align:middle;
+  vertical-align: middle;
 }
 
 th:first-child {

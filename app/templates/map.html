@@ -1,0 +1,28 @@
+{% extends "skeleton.html" %}
+{% block head %}
+    {{ super() }}
+    <script src="/static/js/map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAEWcpvx6no3lvWU26WiY4KmH3ZKGLXTc&callback=initMap" async defer></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-2" id="routesWrapper">
+        <table id="routes">
+            <tr>
+                <th>Routes</th>
+            </tr>
+            <tr>
+                <td data-route-id="all" class="selected">All</td>
+            </tr>
+            {% for route in routes %}
+                <tr>
+                    <td data-route-id="{{ route[0] }}">{{ route[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-10">
+        <div id="map"></div>
+    </div>
+</div>
+{% endblock %}
