@@ -60,6 +60,14 @@ def getLongestRoutes():
             cnt = routes.get(route, 0)
             routes[route] =  cnt + 1
 
+    cur.execute("""
+        SELECT name, id FROM Route ORDER BY id
+        """
+    )
+
+    for row in cur.fetchall():
+        routes[row[0]] = routes.pop(row[1])
+
     return Response(json.dumps(sorted(routes.items(), key=lambda x: x[1], reverse=True)))
 
 @data.route('/data/aggregates/embeddedStops')
