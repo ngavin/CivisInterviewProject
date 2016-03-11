@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th>
+            {{ x }}
+        </th>
+        <th>
+            {{ y }}
+        </th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>
+            {{ row[0] }}
+        </td>
+        <td>
+            {{ row[1] }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

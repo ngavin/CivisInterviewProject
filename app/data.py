@@ -3,6 +3,7 @@ import psycopg2
 from flask import Blueprint, Response, render_template
 
 data = Blueprint('data', __name__, template_folder='templates')
+TOP_X = 10
 
 @data.route('/data/markers')
 def getMarkers():
@@ -68,13 +69,28 @@ def getLongestRoutes():
     for row in cur.fetchall():
         routes[row[0]] = routes.pop(row[1])
 
-    return Response(json.dumps(sorted(routes.items(), key=lambda x: x[1], reverse=True)))
+    longest = sorted(routes.items(), key=lambda x: x[1], reverse=True)[:TOP_X]
+
+    return render_template("aggregateTable.html", x="Route Name", y="# of Stops", rows=longest)
 
 @data.route('/data/aggregates/embeddedStops')
 def getMostEmbeddedStops():
     con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
-    cur.con.cursor()
+    cur = con.cursor()
 
-    cur.execute("SELECT id, array_length(routes, 1) AS numRoutes FROM Stop GROUP BY id ORDER BY numRoutes DESC")
+    cur.execute("""
+        SELECT on_street, cross_street, array_length(routes, 1) AS numRoutes 
+        FROM Stop 
+        ORDER BY numRoutes DESC
+        LIMIT {top_x}
+        """.format(top_x=TOP_X)
+    )
 
-    return Response(json.dumps(cur.fetchall()), mimetype='application/json')
+    embedded = []
+    for row in cur.fetchall():
+        stop = []
+        stop.append("{on_street} and {cross}".format(on_street=row[0], cross=row[1]))
+        stop.append(row[2])
+        embedded.append(stop)    
+
+    return render_template("aggregateTable.html", x="Stop Location", y="# of Routes", rows=embedded)
