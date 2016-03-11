@@ -7,6 +7,7 @@ app.debug = True
 
 index = Blueprint('index', __name__, template_folder='templates')
 mapHtml = Blueprint('map', __name__, template_folder='templates')
+aggregates = Blueprint('aggregates', __name__, template_folder='templates')
 app.register_blueprint(index)
 app.register_blueprint(mapHtml)
 app.register_blueprint(data)
@@ -26,5 +27,33 @@ def map():
     
     return render_template("map.html", routes=cur.fetchall())
 
+@app.route('/aggregates')
+def aggregates():
+    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    cur.con.cursor()
+
+    # bus stop that appears on the most bus routes
+    cur.execute("SELECT id, array_length(routes, 1) AS numRoutes FROM Stop GROUP BY id ORDER BY numRoutes DESC")
+
+    # longest bus route by number of stops
+    cur.execute("""SELECT id, COUNT(distinct numStops) AS numStops
+                    FROM
+                    (
+                        select id, unnest(routes) as numStops
+                        from Stop 
+                    ) expandRoutes
+                    group by id"""
+                )
+
+    
+
+    return render_template("aggregates.html")
+
 if __name__ == '__main__':
     app.run()
+select id, count(distinct routes) as numStops
+    from (
+        select id, unnest(routes) as numStops
+        from Stop
+    ) Stop
+    group by id
