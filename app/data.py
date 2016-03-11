@@ -47,19 +47,20 @@ def getInfoWindowContent(markerId):
 @data.route('/data/aggregates/longestRoutes')
 def getLongestRoutes():
     con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
-    cur.con.cursor()
+    cur = con.cursor()
 
     cur.execute("""
-        SELECT R.name, COUNT(distinct numStops) AS numStops FROM
-        (
-            SELECT id, unnest(routes) AS numStops
-            FROM Stop 
-        ) expandRoutes, Route R
-        WHERE expandRoutes.id = R.id
-        GROUP BY R.name"""
+        SELECT routes FROM Stop
+        """
     )
 
-    return Response(json.dumps(cur.fetchall()), mimetype='application/json')
+    routes = {}
+    for routeList in cur.fetchall():
+        for route in routeList[0]:
+            cnt = routes.get(route, 0)
+            routes[route] =  cnt + 1
+
+    return Response(json.dumps(sorted(routes.items(), key=lambda x: x[1], reverse=True)))
 
 @data.route('/data/aggregates/embeddedStops')
 def getMostEmbeddedStops():
