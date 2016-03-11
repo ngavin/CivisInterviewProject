@@ -10,9 +10,8 @@ def getMarkers():
     cur = con.cursor()
 
     cur.execute("SELECT id, coordinates, routes FROM Stop")
-    results = cur.fetchall()
 
-    return Response(json.dumps(results), mimetype='application/json')
+    return Response(json.dumps(cur.fetchall()), mimetype='application/json')
 
 @data.route('/data/markers/infoWindow/<markerId>')
 def getInfoWindowContent(markerId):
@@ -51,13 +50,16 @@ def getLongestRoutes():
     cur.con.cursor()
 
     cur.execute("""
-        SELECT id, COUNT(distinct numStops) AS numStops FROM
+        SELECT R.name, COUNT(distinct numStops) AS numStops FROM
         (
             SELECT id, unnest(routes) AS numStops
             FROM Stop 
-        ) expandRoutes
-        GROUP BY id"""
+        ) expandRoutes, Route R
+        WHERE expandRoutes.id = R.id
+        GROUP BY R.name"""
     )
+
+    return Response(json.dumps(cur.fetchall()), mimetype='application/json')
 
 @data.route('/data/aggregates/embeddedStops')
 def getMostEmbeddedStops():
@@ -65,3 +67,5 @@ def getMostEmbeddedStops():
     cur.con.cursor()
 
     cur.execute("SELECT id, array_length(routes, 1) AS numRoutes FROM Stop GROUP BY id ORDER BY numRoutes DESC")
+
+    return Response(json.dumps(cur.fetchall()), mimetype='application/json')
