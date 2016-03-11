@@ -19,19 +19,19 @@ def getInfoWindowContent(markerId):
     con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
     cur = con.cursor()
 
-    cur.execute(
-        "PREPARE getInfoWindowContent as "
-        "SELECT S.on_street, S.cross_street, S.boardings::text, S.alightings::text "
-        "FROM Stop S "
-        "WHERE S.id = $1"
+    cur.execute("""
+        PREPARE getInfoWindowContent as 
+        SELECT S.on_street, S.cross_street, S.boardings::text, S.alightings::text
+        FROM Stop S 
+        WHERE S.id = $1"""
     )
 
-    cur.execute(
-        "PREPARE getRoutes as "
-        "SELECT name::text "
-        "FROM Route "
-        "WHERE id IN "
-            "(SELECT unnest(routes) FROM Stop WHERE id = $1)"  
+    cur.execute("""
+        PREPARE getRoutes as 
+        SELECT name::text 
+        FROM Route 
+        WHERE id IN 
+            (SELECT unnest(routes) FROM Stop WHERE id = $1)"""  
     )
 
     cur.execute("EXECUTE getInfoWindowContent('{markerId}')".format(markerId=markerId))
@@ -44,3 +44,24 @@ def getInfoWindowContent(markerId):
         routes.append(route[0])    
 
     return render_template("infoWindowContent.html", id=markerId, on_street=results[0], cross_street=results[1], routes=", ".join(routes), boardings=results[2], alightings=results[3])
+
+@data.route('/data/aggregates/longestRoutes')
+def getLongestRoutes():
+    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    cur.con.cursor()
+
+    cur.execute("""
+        SELECT id, COUNT(distinct numStops) AS numStops FROM
+        (
+            SELECT id, unnest(routes) AS numStops
+            FROM Stop 
+        ) expandRoutes
+        GROUP BY id"""
+    )
+
+@data.route('/data/aggregates/embeddedStops')
+def getMostEmbeddedStops():
+    con = psycopg2.connect(database="civisAnalytics", user="gavin", host="/tmp/")
+    cur.con.cursor()
+
+    cur.execute("SELECT id, array_length(routes, 1) AS numRoutes FROM Stop GROUP BY id ORDER BY numRoutes DESC")
