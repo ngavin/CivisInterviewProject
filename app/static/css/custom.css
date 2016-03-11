@@ -19,10 +19,6 @@ body {
   overflow-y: scroll;
 }
 
-#routes {
-  width: 100%;
-}
-
 #wrap {
   min-height: 100%;
 }
@@ -58,6 +54,10 @@ body {
   width: 100%;
   font-size: x-large;
   padding: 30px 25px 30px 25px
+}
+
+.full {
+  width: 100%;
 }
 
 /*** Table Styles from http://codepen.io/alassetter/pen/cyrfB **/ 

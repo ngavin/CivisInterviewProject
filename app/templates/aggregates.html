@@ -1,16 +1,20 @@
 {% extends "skeleton.html" %}
+{% block head %}
+    {{ super() }}
+    <script src="/static/js/aggregates.js"></script>
+{% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-3">
-        <h3>Longest routes by length</h3>
-        <div id="longestRoutes"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <h3 class="text-center">Longest routes</h3>
+        <div id="longestRoutes" class="load"></div>
     </div>
     <div class="col-md-2"></div>
-    <div class="col-md-3">
-        <h3>Most served stops by # of routes</h3>
-        <div id="embeddedStops"></div>
+    <div class="col-md-4">
+        <h3 class="text-center">Most served stops</h3>
+        <div id="embeddedStops" class="load"></div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
 </div>
 {% endblock %}
